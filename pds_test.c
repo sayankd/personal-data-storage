@@ -15,17 +15,27 @@ void printContact(struct Contact *c );
 main()
 {
 	char *repo_name = "pds_demo.dat";
+	char *ndx_name = "pds_demo.ndx";
 	int status;
 
-	status = pds_open( repo_name );
+	status = pds_open( repo_name, ndx_name );
 	if( status != PDS_SUCCESS ){
 		fprintf(stderr, "pds_open failed: %d\n", status);
 		exit(1);
 	}
 	test_store();
 	test_search();
-	pds_close();
 
+	// Close and reopen to check if the index got saved properly
+	pds_close();
+	status = pds_open( repo_name, ndx_name );
+	if( status != PDS_SUCCESS ){
+		fprintf(stderr, "pds_open failed: %d\n", status);
+		exit(1);
+	}
+	test_search();
+
+	pds_close();
 	printf("Program terminated successfully\n");
 }
 
@@ -91,6 +101,7 @@ void test_search()
 	else{
 		printContact(&c3);
 	}
+
 }
 
 void printContact(struct Contact *c )

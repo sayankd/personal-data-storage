@@ -8,7 +8,7 @@
 
 void test_create();
 
-void main()
+main()
 {
 	test_create();
 	printf("Program terminated successfully\n");
@@ -17,9 +17,10 @@ void main()
 void test_create()
 {
 	char *repo_name = "pds_demo.dat";
+	char *ndx_name = "pds_demo.ndx";
 	int status;
 
-	status = pds_create( repo_name );
+	status = pds_create( repo_name, ndx_name );
 	if( status != PDS_SUCCESS ){
 		fprintf(stderr, "pds_create failed: %d\n", status);
 		exit(1);
